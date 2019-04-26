@@ -1,5 +1,6 @@
 package com.kyan.gitlabdingtalk.gitlab.hook;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
@@ -33,4 +34,8 @@ public class PushHook extends WebHook {
     private List<Commit> commits;
     @JSONField(name = "total_commits_count")
     private Integer totalCommitsCount;
+
+    public static PushHook parseObject(String json) {
+        return JSON.parseObject(json, PushHook.class);
+    }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * Gitlab for both author and assignee
+ *
  * @author kyan
  * @date 2019/4/25
  */

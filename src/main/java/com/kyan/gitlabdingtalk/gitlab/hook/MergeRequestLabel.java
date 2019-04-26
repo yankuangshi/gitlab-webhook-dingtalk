@@ -6,6 +6,8 @@ import lombok.Data;
 import java.util.Date;
 
 /**
+ * Gitlab Merge Request Label
+ *
  * @author kyan
  * @date 2019/4/25
  */
