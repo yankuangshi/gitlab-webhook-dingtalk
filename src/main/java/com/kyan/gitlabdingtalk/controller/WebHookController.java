@@ -27,28 +27,19 @@ public class WebHookController {
     @Resource
     private EventBusProxy eventBusProxy;
 
-    @GetMapping("/send")
+    @PostMapping("/send")
     public ApiResponseUtil send(@RequestHeader("X-Gitlab-Event") String event,
-//                            @RequestHeader("X-Gitlab-Token") String token,
                                 @RequestBody String json) {
         log.info("request header X-Gitlab-Event: {}", event);
         log.info("request body: {}", json);
         if (PUSH_EVENT.equals(event)) {
-            PushHook pushHook = parseJsonToPushHook(json);
+            PushHook pushHook = PushHook.parseObject(json);
             eventBusProxy.postSync(pushHook);
         }
         if (MERGE_REQUEST_EVENT.equals(event)) {
-            MergeRequestHook mergeRequestHook = parseJsonToMergeRequestHook(json);
+            MergeRequestHook mergeRequestHook = MergeRequestHook.parseObject(json);
             eventBusProxy.postSync(mergeRequestHook);
         }
         return ApiResponseUtil.ok();
-    }
-
-    private PushHook parseJsonToPushHook(String json) {
-        return JSON.parseObject(json, PushHook.class);
-    }
-
-    private MergeRequestHook parseJsonToMergeRequestHook(String json) {
-        return JSON.parseObject(json, MergeRequestHook.class);
     }
 }

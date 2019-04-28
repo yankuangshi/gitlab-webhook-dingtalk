@@ -1,11 +1,8 @@
 package com.kyan.gitlabdingtalk.libs.dingtalk;
 
-import com.kyan.gitlabdingtalk.WebhookProperties;
+import com.kyan.gitlabdingtalk.commons.property.WebhookProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,20 +18,22 @@ public class DingTalkApi {
 
     @Resource
     private WebhookProperties properties;
-    @Resource
-    private RestTemplate restTemplate;
 
-    public DingTalkResponse sendMessage(DingTalkMessage message) {
-        final String webhookUrl = properties.getDingtalkApiUrl() + properties.getDingtalkAccessToken();
-        final HttpEntity<String> entity = new HttpEntity<>(message.toJson(), getHeaders());
-        ResponseEntity<DingTalkResponse> result = restTemplate.postForEntity(webhookUrl, entity, DingTalkResponse.class);
-        log.info("Result: {}", result);
-        return result.getBody();
-    }
-
-    private HttpHeaders getHeaders() {
+    public boolean sendMessage(DingTalkMessage message) {
+        boolean ret = false;
+        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return headers;
+        final String requestJson = message.toJson();
+        final String webhookUrl = properties.getDingtalkApiUrl() + properties.getDingtalkAccessToken();
+        final HttpEntity<String> requestEntity = new HttpEntity<>(requestJson, headers);
+        ResponseEntity<DingTalkResponse> result = restTemplate.postForEntity(webhookUrl, requestEntity, DingTalkResponse.class);
+        log.info("Result: {}", result);
+        if (result != null && result.getStatusCode() == HttpStatus.OK) {
+            if (result.getBody().getErrCode().equals(0)) {
+                ret = true;
+            }
+        }
+        return ret;
     }
 }

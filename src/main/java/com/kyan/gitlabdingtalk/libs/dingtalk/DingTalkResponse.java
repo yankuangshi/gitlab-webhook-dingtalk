@@ -1,6 +1,6 @@
 package com.kyan.gitlabdingtalk.libs.dingtalk;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class DingTalkResponse<T> {
 
-    @JSONField(name = "errmsg")
-    private String errMsg;
-    @JSONField(name = "errcode")
+    @JsonProperty("errcode")
     private String errCode;
+    @JsonProperty("errmsg")
+    private String errMsg;
     private T data;
 }

@@ -1,4 +1,4 @@
-package com.kyan.gitlabdingtalk;
+package com.kyan.gitlabdingtalk.commons.property;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +17,8 @@ import org.springframework.util.Assert;
 @ConfigurationProperties(prefix = "webhook")
 public class WebhookProperties implements InitializingBean {
 
-    private String apiToken;
-    private String dingtalkUrl;
-    private String dingtalkToken;
+    private String dingtalkApiUrl;
+    private String dingtalkAccessToken;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -27,8 +26,7 @@ public class WebhookProperties implements InitializingBean {
     }
 
     private void checkNonNull() {
-        Assert.notNull(apiToken, "The property 'webhook.api.token' should not be null");
-        Assert.notNull(dingtalkUrl, "The property 'webhook.dingtalk.url' should not be null");
-        Assert.notNull(dingtalkToken, "The property 'webhook.dingtalk.token' should not be null");
+        Assert.notNull(dingtalkApiUrl, "The property 'webhook.dingtalk-api-url' should not be null");
+        Assert.notNull(dingtalkAccessToken, "The property 'webhook.dingtalk-access-token' should not be null");
     }
 }
