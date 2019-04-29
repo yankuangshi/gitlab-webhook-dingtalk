@@ -25,6 +25,7 @@ public class GitlabServiceImpl implements GitlabService {
     @Override
     public List<User> listAllUsers() {
         GitLabApi gitLabApi = new GitLabApi(gitlabProperties.getHostUrl(), gitlabProperties.getPrivateToken());
+        gitLabApi.setIgnoreCertificateErrors(true);
         try {
             return gitLabApi.getUserApi().getActiveUsers();
         } catch (GitLabApiException e) {

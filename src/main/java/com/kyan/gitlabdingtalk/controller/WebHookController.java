@@ -1,6 +1,7 @@
 package com.kyan.gitlabdingtalk.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.kyan.gitlabdingtalk.commons.property.GitlabProperties;
 import com.kyan.gitlabdingtalk.commons.util.ApiResponseUtil;
 import com.kyan.gitlabdingtalk.event.handler.EventBusProxy;
 import com.kyan.gitlabdingtalk.gitlab.hook.MergeRequestHook;
@@ -26,12 +27,17 @@ public class WebHookController {
 
     @Resource
     private EventBusProxy eventBusProxy;
+    @Resource
+    private GitlabProperties gitlabProperties;
 
     @PostMapping("/send")
     public ApiResponseUtil send(@RequestHeader("X-Gitlab-Event") String event,
+                                @RequestHeader("X-Gitlab-Token") String token,
                                 @RequestBody String json) {
-        log.info("request header X-Gitlab-Event: {}", event);
-        log.info("request body: {}", json);
+        if (!token.equals(gitlabProperties.getApiToken())) {
+            log.error("X-Gitlab-Token is error");
+            return ApiResponseUtil.error(new Exception("X-Gitlab-Token error"));
+        }
         if (PUSH_EVENT.equals(event)) {
             PushHook pushHook = PushHook.parseObject(json);
             eventBusProxy.postSync(pushHook);

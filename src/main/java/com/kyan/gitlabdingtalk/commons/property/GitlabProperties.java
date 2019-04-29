@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 @ConfigurationProperties(prefix = "gitlab")
 public class GitlabProperties implements InitializingBean {
 
+    private String apiToken;
     private String hostUrl;
     private String privateToken;
 
@@ -26,6 +27,7 @@ public class GitlabProperties implements InitializingBean {
     }
 
     private void checkNonNull() {
+        Assert.notNull(apiToken, "The property 'gitlab.api-token' should not be null");
         Assert.notNull(hostUrl, "The property 'gitlab.host-url' should not be null");
         Assert.notNull(privateToken, "The property 'gitlab.private-token' should not be null");
     }

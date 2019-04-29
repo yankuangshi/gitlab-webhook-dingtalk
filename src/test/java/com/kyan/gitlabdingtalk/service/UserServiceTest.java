@@ -33,7 +33,8 @@ public class UserServiceTest {
     public void testSaveUser() {
         UserDO user = UserDO.builder()
                 .gid(1)
-                .username("kyan")
+                .fullName("Kuangshi Yan")
+                .userName("kyan")
                 .build();
         int ret = userService.save(user);
         assertThat(ret, is(1));
@@ -42,7 +43,7 @@ public class UserServiceTest {
     @Test
     public void testGetOneUser() {
         UserDO user = userService.get(1);
-        assertThat(user.getUsername(), is("kyan"));
+        assertThat(user.getUserName(), is("kyan"));
     }
 
     @Test

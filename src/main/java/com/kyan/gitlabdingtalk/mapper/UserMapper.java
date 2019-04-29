@@ -23,7 +23,8 @@ public interface UserMapper {
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "gid", column = "gid"),
-            @Result(property = "username", column = "username"),
+            @Result(property = "fullName", column = "full_name"),
+            @Result(property = "userName", column = "user_name"),
             @Result(property = "mobile", column = "mobile")
     })
     List<UserDO> listAll();
@@ -38,7 +39,8 @@ public interface UserMapper {
     @Results({
             @Result(property = "id", column = "id"),
             @Result(property = "gid", column = "gid"),
-            @Result(property = "username", column = "username"),
+            @Result(property = "fullName", column = "full_name"),
+            @Result(property = "userName", column = "user_name"),
             @Result(property = "mobile", column = "mobile")
     })
     UserDO getUserByGid(Integer gid);
@@ -49,7 +51,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Insert("INSERT INTO gitlab_user(gid, username) VALUES (#{gid}, #{username})")
+    @Insert("INSERT INTO gitlab_user(gid, full_name, user_name) VALUES (#{gid}, #{fullName}, #{userName})")
     int save(UserDO user);
 
     /**

@@ -36,7 +36,8 @@ public class ApplicationStartupRunner implements ApplicationRunner {
                 log.info("Gitlab user[id={}, username={}] doesn't exit, save into db", gitlabUser.getId(), gitlabUser.getUsername());
                 UserDO user = UserDO.builder()
                         .gid(gitlabUser.getId())
-                        .username(gitlabUser.getUsername())
+                        .fullName(gitlabUser.getName())
+                        .userName(gitlabUser.getUsername())
                         .build();
                 userService.save(user);
             }

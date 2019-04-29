@@ -37,7 +37,13 @@ import java.util.List;
 @Builder
 public class DingTalkMarkdownMessage implements DingTalkMessage {
 
+    /**
+     * 消息标题，显示在通知栏
+     */
     private String title;
+    /**
+     * 消息具体内容，显示在钉钉应用内消息
+     */
     private String text;
     private List<String> atMobiles;
     private boolean atAll;
